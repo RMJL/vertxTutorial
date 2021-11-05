@@ -2,17 +2,22 @@ package com.rui.udemy.vertx_starter.verticles;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VerticleAB extends AbstractVerticle {
+
+  private static final Logger LOG = LoggerFactory.getLogger(VerticleAB.class);
+
   @Override
   public void start(Promise<Void> startPromise) throws Exception {
-    System.out.println("Started " + getClass().getName());
+    LOG.debug("Started {}", getClass().getName());
     startPromise.complete();
   }
 
   @Override
   public void stop(Promise<Void> stopPromise) throws Exception {
-    System.out.println("Stopped " + getClass().getName());
+    LOG.debug("Stopped {}", getClass().getName());
     stopPromise.complete();
   }
 }
