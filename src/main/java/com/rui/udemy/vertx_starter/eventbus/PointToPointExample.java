@@ -10,7 +10,8 @@ public class PointToPointExample {
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
     vertx.deployVerticle(new Sender());
-    vertx.deployVerticle(new Receiver());
+    vertx.deployVerticle(new ReceiverA());
+    vertx.deployVerticle(new ReceiverB());
   }
 
   static class Sender extends AbstractVerticle {
@@ -26,8 +27,20 @@ public class PointToPointExample {
     }
   }
 
-  static class Receiver extends AbstractVerticle {
-    private static final Logger LOG = LoggerFactory.getLogger(Receiver.class);
+  static class ReceiverA extends AbstractVerticle {
+    private static final Logger LOG = LoggerFactory.getLogger(ReceiverA.class);
+
+    @Override
+    public void start(Promise<Void> startPromise) throws Exception {
+      startPromise.complete();
+      vertx.eventBus().<String>consumer(Sender.class.getName(), message -> {
+        LOG.debug("Message received: {}", message.body());
+      });
+    }
+  }
+
+  static class ReceiverB extends AbstractVerticle {
+    private static final Logger LOG = LoggerFactory.getLogger(ReceiverB.class);
 
     @Override
     public void start(Promise<Void> startPromise) throws Exception {

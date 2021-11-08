@@ -3,19 +3,17 @@ package com.rui.udemy.vertx_starter.eventbus;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
-import io.vertx.core.eventbus.DeliveryOptions;
-import io.vertx.core.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RequestResponseExample {
-  private static final Logger LOG = LoggerFactory.getLogger(RequestResponseExample.class);
+public class RequestResponseExampleJSON {
+  private static final Logger LOG = LoggerFactory.getLogger(RequestResponseExampleJSON.class);
 
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
     vertx.deployVerticle(new RequestVerticle());
     vertx.deployVerticle(new ResponseVerticleA());
-    vertx.deployVerticle(new ResponseVerticleB());
+//    vertx.deployVerticle(new ResponseVerticleB());
   }
 
   static class RequestVerticle extends AbstractVerticle {

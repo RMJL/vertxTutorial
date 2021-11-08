@@ -1,6 +1,7 @@
 package com.rui.udemy.vertx_starter.eventbus;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
@@ -11,7 +12,8 @@ public class PublishSubscribeExample {
     Vertx vertx = Vertx.vertx();
     vertx.deployVerticle(new Publish());
     vertx.deployVerticle(new SubscribeA());
-    vertx.deployVerticle(new SubscribeB());
+    vertx.deployVerticle(SubscribeB.class.getName(),
+      new DeploymentOptions().setInstances(2));
   }
 
   static class Publish extends AbstractVerticle {
@@ -32,20 +34,20 @@ public class PublishSubscribeExample {
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
       startPromise.complete();
-      vertx.eventBus().consumer(Publish.class.getName(), message -> {
+      vertx.eventBus().<String>consumer(Publish.class.getName(), message -> {
         LOG.debug("Received message {} in {}", this.getClass(), message.body());
       });
     }
   }
 
-  static class SubscribeB extends AbstractVerticle {
+  public static class SubscribeB extends AbstractVerticle {
 
     private static final Logger LOG = LoggerFactory.getLogger(SubscribeB.class);
 
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
       startPromise.complete();
-      vertx.eventBus().consumer(Publish.class.getName(), message -> {
+      vertx.eventBus().<String>consumer(Publish.class.getName(), message -> {
         LOG.debug("Received message {} in {}", this.getClass(), message.body());
       });
     }
