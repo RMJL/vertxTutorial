@@ -14,6 +14,11 @@ public class MainVerticle extends AbstractVerticle {
 
   private static final Logger LOG = LoggerFactory.getLogger(MainVerticle.class);
 
+  public static void main(String[] args) {
+    Vertx vertx = Vertx.vertx();
+    vertx.deployVerticle(new MainVerticle());
+  }
+
   @Override
   public void start(Promise<Void> startPromise) throws Exception {
     LOG.debug("Started {}", getClass().getName());
@@ -26,10 +31,5 @@ public class MainVerticle extends AbstractVerticle {
           .put("id", UUID.randomUUID().toString())
           .put("name", VerticleN.class.getSimpleName())));
     startPromise.complete();
-  }
-
-  public static void main(String[] args) {
-    Vertx vertx = Vertx.vertx();
-    vertx.deployVerticle(new MainVerticle());
   }
 }

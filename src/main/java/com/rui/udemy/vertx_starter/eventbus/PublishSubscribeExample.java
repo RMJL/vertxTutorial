@@ -13,7 +13,7 @@ public class PublishSubscribeExample {
     vertx.deployVerticle(new Publish());
     vertx.deployVerticle(new SubscribeA());
     vertx.deployVerticle(SubscribeB.class.getName(),
-      new DeploymentOptions().setInstances(2));
+      new DeploymentOptions().setInstances(1));
   }
 
   static class Publish extends AbstractVerticle {
